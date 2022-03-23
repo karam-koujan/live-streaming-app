@@ -4,14 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"nodemon index.js"
+    "dev": "nodemon index.js",
+    "test":"jest"
   },
   "author": "karam",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.0",
+    "googleapis": "^97.0.0",
+    "joi": "^17.6.0",
+    "mongoose": "^6.2.8",
     "node-media-server": "^2.3.8"
   },
   "devDependencies": {
+    "jest": "^27.5.1",
     "nodemon": "^2.0.15"
   }
 }
