@@ -1,9 +1,10 @@
 let buildMakeUser = function(studentValidator) {
     return (userInfo) => {
       let {error} = studentValidator(userInfo)
-      if (error) throw new Error(error)
+      
+      if (error) return {error:true}
   
-      return userInfo;
+      return {...userInfo,error:false};
     }
   }
   

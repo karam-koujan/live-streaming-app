@@ -9,7 +9,7 @@ let validator = (schema) =>
         error: message
       }
     }
-    return true
+    return {error:false}
   }
 
 module.exports = validator

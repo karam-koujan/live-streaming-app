@@ -7,9 +7,9 @@ const user = Joi.object().keys({
 module.exports = Joi.object().keys({
     userName : Joi.string(),
     email: Joi.string().email(),
-    password : Joi.string().max(30).min(8),
-    profileImg : Joi.string(),
-    profileBackgroundImg : Joi.string(),
-    followers : Joi.array().items(user),
-    followings: Joi.array().items(user),    
+    password : Joi.string(),
+    profileImg : Joi.string().default("no picture"),
+    profileBackgroundImg : Joi.string().default("no picture"),
+    followers : Joi.array().items(user).default([]),
+    followings: Joi.array().items(user).default([]),    
 })
