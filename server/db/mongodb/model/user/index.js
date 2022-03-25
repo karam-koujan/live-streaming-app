@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
      followers : [{id:{type:ObjectId,ref:'User'}}],
      followings : [{id:{type:ObjectId,ref:'User'}}],
      profileImg :{type:String,default:"no picture"},
-     profileBackgroundImg : {type:String,default:"no picture"} 
+     profileBackgroundImg : {type:String,default:"no picture"},
+     streamKey:String 
 })
 
 module.exports = mongoose.model('User',userSchema)

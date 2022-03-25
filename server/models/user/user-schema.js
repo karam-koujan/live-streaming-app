@@ -11,5 +11,6 @@ module.exports = Joi.object().keys({
     profileImg : Joi.string().default("no picture"),
     profileBackgroundImg : Joi.string().default("no picture"),
     followers : Joi.array().items(user).default([]),
-    followings: Joi.array().items(user).default([]),    
+    followings: Joi.array().items(user).default([]),
+    streamKey: Joi.string()  
 })

@@ -3,7 +3,8 @@ const {addUser,findUser} = require("../../data__access/user/");
 const validator = require('../../models/validator');
 const userLoginSchema = require("./validation/userLogin-schema");
 var jwt = require('jsonwebtoken');
-const { tokenKey } = require('../../config/keys/keys');
+const { tokenKey,streamToken } = require('../../config/keys/keys');
+const shortId = require("shortid");
 const saltRounds = 10;
 
 exports.loginController = async(req,res)=>{
@@ -47,7 +48,7 @@ exports.loginController = async(req,res)=>{
 }
 exports.registerController = async(req,res)=>{
 
-    const {password,userName,email,...rest} = req.body;
+    const {password,userName,email} = req.body;
     const {user,dbErr} = await findUser({userName})
     if(user!==null){
        return res.status(400).json({
@@ -62,7 +63,6 @@ exports.registerController = async(req,res)=>{
          })
     }
     const userEmail = await findUser({email})
-    console.log(userEmail)
 
     if(userEmail.user!==null){
        return res.status(400).json({
@@ -83,10 +83,14 @@ exports.registerController = async(req,res)=>{
              message:"internal server error"
          })
      }
+    const streamKey = shortId.generate();
     const newUser = {
-        ...rest,
+        userName,
+        email,
+        streamKey,
         password:hash
     }
+
     const {message,error,dbErr} = await addUser(newUser)
      if(dbErr){
          return res.status(500).json({error,message:"internal server error"})

@@ -23,3 +23,12 @@ exports.findUser = async(filter)=>{
     return {error:true,dbErr:true,message:"db error"}
   }
 }
+
+exports.modifyUser = async(filter,newInfo)=>{
+  try{
+    const user = await User.findOneAndUpdate(filter,newInfo);
+    return {error:false,user,dbErr:false}
+}catch(err){
+  return {error:true,dbErr:true,message:"db error"}
+}
+}
