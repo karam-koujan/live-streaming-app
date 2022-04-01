@@ -33,7 +33,7 @@ describe("test authentification",()=>{
             "email":"karamkoujan@gmail.com",
             "password":"13456789",
         }
-        await request(app).post("/api/auth/login").send(data).expect(400).then(response=>{
+        await request(app).post("/api/auth/login").send(data).expect(403).then(response=>{
             expect(response.error).toBeTruthy()
         })
 
