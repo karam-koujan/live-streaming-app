@@ -15,6 +15,7 @@ app.use(urlBodyParser)
 app.use("/api/auth",auth)
 app.use("/api/stream",tokenVerification,stream)
 app.listen(port,_=>console.log("the http server is listening at port ",port))
+
 mongoose.connect(dbConnection,_=>console.log("database is connect successfully"))
 
 nodeMediaServer.run()

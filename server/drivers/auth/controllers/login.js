@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt');
 const {findUser} = require("../../../data__access/user");
-const validator = require('../../../models/validator');
+const validator = require('../../../utils/dataValidator');
 const userLoginSchema = require("../validation/userLogin-schema");
 var jwt = require('jsonwebtoken');
 const { tokenKey} = require('../../../config/keys/keys');
-const {BadRequest, ServerError,Forbidden} = require("../../utils/error");
+const {BadRequest, ServerError,Forbidden} = require("../../../utils/httpError");
 
 
 

@@ -1,13 +1,20 @@
 const bcrypt = require('bcrypt');
 const {addUser,findUser} = require("../../../data__access/user");
-const {ServerError,Forbidden} = require("../../utils/error");
+const validator = require('../../../utils/dataValidator');
+const userRegisterSchema = require("../validation/userRegister-schema")
+const {ServerError,Forbidden,BadRequest} = require("../../../utils/httpError");
 const shortId = require("shortid");
 const saltRounds = 10;
 
 
 const registerController = async(req,res)=>{
 
-    const {password,userName,email} = req.body;
+    const {password,userName,email,...rest} = req.body;
+    const userValidation = validator(userRegisterSchema)({password,userName,email,...rest})
+     if(userValidation.error){
+         const {statusCode,error,message} = new BadRequest("invalid input")
+        return res.status(statusCode).json({error,message})
+     }
     const {user,dbErr} = await findUser({userName})
     const serverError = new ServerError("internal server error")
     const forbiddenUser = new Forbidden("this userName is already existed")
@@ -49,7 +56,8 @@ const registerController = async(req,res)=>{
         userName,
         email,
         streamKey,
-        password:hash
+        password:hash,
+        ...rest
     }
 
     const {message,error,dbErr} = await addUser(newUser)

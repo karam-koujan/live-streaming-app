@@ -1,5 +1,5 @@
-let Joi = require('joi')
-//Joi.validate(payload, schema, {abortEarly: false})
+
+
 let validator = (schema) =>
   (payload) => {
     let {error} = schema.validate(payload)
