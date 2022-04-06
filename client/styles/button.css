@@ -3,7 +3,7 @@
     border-radius: 2px;
 
     font-family: var(--inter);
-    font-size: 13px;
+    font-size: .81rem;
     font-weight: var(--font-bold);
     text-align: center;
     text-transform: capitalize;
@@ -42,7 +42,6 @@
 }
 .btn-third--purple:hover,.btn-third--purple:focus,.btn-third--gray:hover,.btn-third--gray:focus{
     background-color: var(--third);
-    
     padding: .3rem 1rem;
 
 }
