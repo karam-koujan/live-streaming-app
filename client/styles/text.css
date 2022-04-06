@@ -1,0 +1,18 @@
+.text-center{
+    text-align: center;
+}
+
+.text-large{
+    font-size: 1.12rem;
+}
+
+.text-small{
+    font-size: .81rem;
+}
+
+.text-primary{
+    color: var(--secondary);
+}
+.text-secondary{
+    color: var(--fourth);
+}
