@@ -23,8 +23,11 @@ body {
   margin: 0;
   font-family: var(--inter);
 }
-button,input{
+button,input,textarea{
   outline: none;
+}
+textarea{
+ resize: none;
 }
 button,a{
   cursor: pointer;
