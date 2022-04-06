@@ -1,4 +1,4 @@
-.btn-primary,.btn-secondary{
+.btn-primary,.btn-secondary,.btn-third--gray,.btn-third--purple{
     border:1px solid transparent;
     border-radius: 2px;
 
@@ -31,4 +31,18 @@
 .btn-secondary:hover,.btn-secondary:focus{
     background-color: var(--primary);
     color:var(--white);
+}
+.btn-third--purple{
+    background-color:transparent;
+    color: var(--primary);
+}
+.btn-third--gray{
+   background-color: none;
+   color: var(--secondary);
+}
+.btn-third--purple:hover,.btn-third--purple:focus,.btn-third--gray:hover,.btn-third--gray:focus{
+    background-color: var(--third);
+    
+    padding: .3rem 1rem;
+
 }
