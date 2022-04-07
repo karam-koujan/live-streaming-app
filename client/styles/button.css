@@ -18,6 +18,11 @@
     color: var(--white);
    
 }
+.btn-primary--disabled{
+    background-color: var(--white);
+    border:1px solid var(--primary);    
+    color:var(--primary);
+}
 .btn-primary:hover,.btn-primary:focus{
     background-color: var(--white);
     border:1px solid var(--primary);    
@@ -27,6 +32,10 @@
 .btn-secondary{
     background-color: var(--third);
     color: var(--secondary);
+}
+.btn-secondary--disabled{
+    background-color: var(--primary);
+    color:var(--white);
 }
 .btn-secondary:hover,.btn-secondary:focus{
     background-color: var(--primary);
