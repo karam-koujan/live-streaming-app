@@ -1,0 +1,29 @@
+
+.form__elements{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    
+    margin-bottom: .5rem;
+
+    text-transform:capitalize;
+}
+.form__label{
+    color: var(--secondary);
+}
+.form__addElements__container{
+   display: flex;
+   gap: 1rem;
+}
+
+
+.form__submit__btn{
+    display: block;
+    margin-top: 1rem;
+    margin-inline:  auto ;
+}
+
+.form__textarea{
+    height: 4rem ;
+    resize: vertical;
+}
