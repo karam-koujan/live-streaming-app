@@ -89,3 +89,8 @@
     display: flex;
     gap: 1rem;
 }
+
+.server__err{
+    color: var(--red);
+    font-size: .8rem ;
+}

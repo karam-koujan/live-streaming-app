@@ -1,8 +1,11 @@
 import * as React from "react" ;
 import Styles from "./styles/register.module.css";
+import AuthGlobalStyle from "./styles/style.module.css";
 import {useFormik,FormikProps} from "formik";
 import * as Yup from "yup";
 import eye from "../../assets/icons/eye.png";
+import {useAuthContext} from "./context/authContext";
+import {usePost} from "../../hooks/httpReq";
 
 
 interface formikInterface{
@@ -48,7 +51,9 @@ const Register = ()=>{
  const [socialMediaLink,setSocialMediaLink] = React.useState("");
  const [socialMediaLinkErr,setSocialMediaLinkErr] = React.useState("")
  const [showPassword,setShowPassword] = React.useState(false)
-
+ const [serverErr,setServerErr] = React.useState("");
+ const {setAuth} = useAuthContext()
+ const setPost = usePost()
  const handleAddRemoveField = (state:number,setState:React.Dispatch<React.SetStateAction<number>>,max:number,min:number)=>{  
        const add = ()=> state===max ? null : setState(state+1)
        const remove = ()=> state===min ? null : setState(state-1)
@@ -110,16 +115,26 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
      },
      validationSchema,
      onSubmit:async(e)=>{
-         console.log(errors)
-         console.log({...values,socialmediaLinks:[...socialmediaLinks,socialMediaLink] ,rules:[...rules,rule]})
+         
            
-         try{
-                   await socialMediaSchema.validate([...socialmediaLinks,socialMediaLink])
-                  setSocialMediaLinkErr("")
+               try{
+                   if(socialMediaLink){
+                       await socialMediaSchema.validate([...socialmediaLinks,socialMediaLink])
+                      setSocialMediaLinkErr("")
+                   }
                 }catch(err:any){
                return  setSocialMediaLinkErr(err.errors)
               }
-            
+              try{
+                const response = await setPost("http://localhost:8080/api/auth/register",{...values,socialMedia:socialMediaLink&&socialmediaLinks.length?[...socialmediaLinks,socialMediaLink]:[] ,rules:socialMediaLink&&socialmediaLinks.length?[...rules,rule]:[]},false)
+                if(response.error){
+                   setServerErr(response.message)
+                }else{
+                    setAuth("login") 
+                }
+             }catch(err){
+                 console.error(err)
+             }
      }
  })
  return(
@@ -195,6 +210,7 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
              </button>
              </div>
          </div>
+         {serverErr?<p className={`text-center ${AuthGlobalStyle.server__err}`}>{serverErr}</p>:null}
          <button className={`btn-primary ${Styles.form__submit__btn}`} type="submit" onSubmit={_=>handleSubmit}>
              register
          </button>
