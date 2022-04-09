@@ -3,10 +3,10 @@ POST http://localhost:8080/api/auth/register
 Content-Type: application/json
 
 {
-  "userName":"test",
-  "email":"testtest@gmail.com",
-  "password":"1234567891011"
-  
+  "userName":"test2",
+  "email":"testtest2@gmail.com",
+  "password":"1234567891011",
+  "socialMedia":["http://twitter.com"]
 }
 ###
 
