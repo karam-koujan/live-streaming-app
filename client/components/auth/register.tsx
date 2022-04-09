@@ -103,7 +103,7 @@ const validationSchema = Yup.object({
     userName : Yup.string().max(15,"15 letters is the maximum").min(3,"3 letter is the minimum").required("this field is required"),
     email: Yup.string().email("please write a valid email").required("this field is required"),
     password:Yup.string().min(8,"password should have at least 8 letters").max(30,"30 letters is the maximum").required("this field is required"),
-    aboutMe: Yup.string().max(300,"300 letters is the maximum").required("this field is required")
+    aboutMe: Yup.string().max(300,"300 letters is the maximum")
 })
 const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i,"this not a valid url"))
  const {handleSubmit,handleChange,handleBlur,errors,values,touched}:FormikProps<formikInterface> = useFormik<formikInterface>({
@@ -126,7 +126,8 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
                return  setSocialMediaLinkErr(err.errors)
               }
               try{
-                const response = await setPost("http://localhost:8080/api/auth/register",{...values,socialMedia:socialMediaLink&&socialmediaLinks.length?[...socialmediaLinks,socialMediaLink]:[] ,rules:socialMediaLink&&socialmediaLinks.length?[...rules,rule]:[]},false)
+                  console.log({...values,socialMedia:!socialMediaLink?socialmediaLinks:[...socialmediaLinks,socialMediaLink] ,rules:!rule?rules:[...rules,rule]})
+                const response = await setPost("http://localhost:8080/api/auth/register",{...values,socialMedia:socialMediaLink&&socialmediaLinks.length?[...socialmediaLinks,socialMediaLink]:!socialMediaLink&&socialmediaLinks.length?[...socialmediaLinks]:socialMediaLink?[socialMediaLink]:[]  ,rules:rule&&rules.length?[...rules,rule]:!rule&&rules.length?[...rules]:socialMediaLink?[socialMediaLink]:[]},false)
                 if(response.error){
                    setServerErr(response.message)
                 }else{
