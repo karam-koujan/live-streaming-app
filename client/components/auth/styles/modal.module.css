@@ -41,7 +41,7 @@
     width: 100%;
 
 }
-.showPassword{
+.passwordVisibility{
     background-color: transparent;
     border: none;
     border-radius: 2px;
@@ -54,6 +54,6 @@
 
     transition: background-color  .2s ease-in-out;
 }
-.showPassword:focus,.showPassword:hover{
+.passwordVisibility:focus,.passwordVisibility:hover{
     background-color: var(--third);
 }

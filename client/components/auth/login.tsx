@@ -1,5 +1,5 @@
 import * as React from "react";
-import Styles from "./styles/register.module.css";
+import Styles from "./styles/modal.module.css";
 import AuthGlobalStyle from "./styles/style.module.css";
 import * as Yup from "yup";
 import {useFormik,FormikProps} from "formik";
@@ -7,6 +7,7 @@ import eye from "../../assets/icons/eye.png";
 import {usePost} from "../../hooks/httpReq/";
 import useLocalhost from "../../hooks/useLocalhost";
 import {useAuthContext} from "./context/authContext";
+import serverReducer from "./reducers/server";
 
 interface formikInterface{
     userName: string;
@@ -15,9 +16,9 @@ interface formikInterface{
 }
 
 const Login = ()=>{
-    const [showPassword,setShowPassword] = React.useState(false);
+    const [passwordVisibility,setpasswordVisibility] = React.useState(false);
     const [_,setAuthorization] = useLocalhost("authorization");
-    const [serverErr,setServerErr] = React.useState(""); 
+    const [{serverErr},dispatch] = React.useReducer(serverReducer,{serverErr:""}); 
     const {setAuth} = useAuthContext()
     const setPost = usePost();
     const validationSchema = Yup.object({
@@ -37,7 +38,7 @@ const Login = ()=>{
             try{
                const response = await setPost("http://localhost:8080/api/auth/login",values,false)
                if(response.error){
-                  setServerErr(response.message)
+                  dispatch({type:"server__err",payload:{name:"serverErr",err:response.message}})
                }else{
                    setAuthorization(`Bearer ${response.token}`)
                    setAuth("") 
@@ -72,9 +73,9 @@ const Login = ()=>{
                  password :
              </label>
              <div className={Styles.password__container}>
-             <input type={showPassword?"text":"password"}  placeholder="password" onBlur={handleBlur} onChange={handleChange}  name="password" className={`formInput-small ${Styles.password}`}
+             <input type={passwordVisibility?"text":"password"}  placeholder="password" onBlur={handleBlur} onChange={handleChange}  name="password" className={`formInput-small ${Styles.password}`}
               />
-             <button className={Styles.showPassword} onClick={_=>setShowPassword(!showPassword)} type="button">
+             <button className={Styles.passwordVisibility} onClick={_=>setpasswordVisibility(!passwordVisibility)} type="button">
                  <img src={eye.src} alt="show password"/>
              </button>
              </div>
@@ -82,7 +83,7 @@ const Login = ()=>{
 
          </div>
          {serverErr?<p className={`text-center ${AuthGlobalStyle.server__err}`}>{serverErr}</p>:null}
-         <button className={`btn-primary ${Styles.form__submit__btn}`} type="submit" onSubmit={_=>handleSubmit}>
+         <button className={`btn-primary ${Styles.form__submit__btn}`} type="submit" onSubmit={_=>handleSubmit()}>
              login
          </button>
       </form>
