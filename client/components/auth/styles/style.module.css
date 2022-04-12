@@ -94,3 +94,35 @@
     color: var(--red);
     font-size: .8rem ;
 }
+
+.or{
+    color: var(--secondary);
+    font-size: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+
+    position: relative;
+
+    margin-block: 2rem;
+}
+.or::before,.or::after{
+    content: "";
+
+    height: 1px;
+   width: 45%;  
+    position: absolute;
+    top: 50%;
+    background-color: var(--secondary);
+    color: var(--secondary);
+}
+.or::before{
+    right: 0;
+}
+.or:after{
+ left: 0;
+}
+.googleLoginBtn__container{
+
+    display: flex;
+    justify-content: center;
+}

@@ -12,6 +12,8 @@ interface Istate{
          switch(action.type){
              case "server__err":
                  return {...state,[action.payload.name]:action.payload.err}
+             case "server__response":
+                 return {...state,[action.payload.name]:action.payload.data}    
              default :
                return state                        
          }

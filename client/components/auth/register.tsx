@@ -8,6 +8,9 @@ import {useAuthContext} from "./context/authContext";
 import {usePost} from "../../hooks/httpReq";
 import registerReducer from "./reducers/register";
 import serverReducer from "./reducers/server";
+import {GoogleLogin} from "react-google-login";
+import {useGet} from "../../hooks/httpReq/";
+
 
 interface formikInterface{
     userName: string;
@@ -17,6 +20,7 @@ interface formikInterface{
 }
 
 
+
 const Register = ()=>{
 
  const maxRulesFields = 4;
@@ -24,6 +28,7 @@ const Register = ()=>{
  const minSocialMediaFields = 1;
  const minRulesFields = 1 ;
 const {auth,setAuth}  = useAuthContext();
+const setGet = useGet()
 const setPost = usePost();
 const [socialMediaLinkErr,setSocialMediaLinkErr] = React.useState("");
 const [{rules,rulesFieldNum,socialMediaLinks,socialMediaLinksFieldNum,passwordVisibility},dispatch] = React.useReducer(registerReducer,{
@@ -33,8 +38,9 @@ const [{rules,rulesFieldNum,socialMediaLinks,socialMediaLinksFieldNum,passwordVi
      socialMediaLinksFieldNum:1,
      passwordVisibility:false
 })
- const serverState:any  = React.useReducer(serverReducer,{
-     serverErr:""
+ const [{serverErr,userGoogleData},dispatchServer]  = React.useReducer(serverReducer,{
+     serverErr:"",
+     userGoogleData:{userName:"",email:""}
  })
  const handleTextChange = (id:number,fieldName:string) => {
     return (e:React.ChangeEvent<HTMLInputElement>)=>dispatch({type:"write__text",payload:{name:fieldName,textId:id,text:e.target.value}})
@@ -50,7 +56,15 @@ const handleAddField = (fieldNumName:string)=>{
    dispatch({type:"remove__text",payload:{name:fieldName,textId:rulesFieldNum}})
  }
 }
- 
+ const handleGoogleResponse = async(response:any)=>{
+    try{
+        const data = await setGet(`http://localhost:8080/api/auth/google/account/userInfo/?token=${response.tokenId}`,false)
+       dispatchServer({type:"server__response",payload:{name:"userGoogleData",data:{userName:data.userName,email:data.email}}})
+     }catch(err){
+        console.error(err)
+    }
+
+ }
  const handlePasswordVisibility = ()=> passwordVisibility?dispatch({type:"hide__element",payload:{name:"passwordVisibility"}}):dispatch({type:"show__element",payload:{name:"passwordVisibility"}})
 const validationSchema = Yup.object({
     userName : Yup.string().max(15,"15 letters is the maximum").min(3,"3 letter is the minimum").required("this field is required"),
@@ -67,7 +81,7 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
          aboutMe:"",
      },
      validationSchema,
-     onSubmit:async(e)=>{
+     onSubmit:async()=>{
          
          const socialMedia = socialMediaLinks.filter((item:(string|undefined))=>item!==undefined);
          const rulesResult = rules.filter((item:(string|undefined))=>item!==undefined)
@@ -83,9 +97,8 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
                 const data = {...values,socialMedia ,rules:rulesResult}
                 const response = await setPost("http://localhost:8080/api/auth/register",data,false)
                 if(response.error){
-               serverState[1]({type:"server__err",payload:{name:"serverErr",err:response.message}})
+               dispatchServer({type:"server__err",payload:{name:"serverErr",err:response.message}})
                 }else{
-                    console.log("coucou")
                     setAuth("login") 
 
                 }
@@ -96,20 +109,48 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
      }
 
  })
+
+ const handleRegisterWithGoogle =  ()=>{
+  return async (e:React.FormEvent<HTMLFormElement>)=>{
+    
+    const socialMedia = socialMediaLinks.filter((item:(string|undefined))=>item!==undefined);
+    const rulesResult = rules.filter((item:(string|undefined))=>item!==undefined)
+          try{
+              
+                  await socialMediaSchema.validate(socialMedia)
+                 setSocialMediaLinkErr("")
+              
+           }catch(err:any){
+          return  setSocialMediaLinkErr(err.errors)
+         }
+         try{
+           const data = {aboutMe:values.aboutMe,userName:userGoogleData.userName,email:userGoogleData.email,socialMedia ,rules:rulesResult}
+           const response = await setPost("http://localhost:8080/api/auth/google/account/register",data,false)
+           if(response.error){
+          dispatchServer({type:"server__err",payload:{name:"serverErr",err:response.message}})
+           }else{
+               setAuth("") 
+
+           }
+        }catch(err){
+            console.error(err)
+        }
+    }
+ }
  return(
-        <form className={Styles.form} onSubmit={handleSubmit}>
+        <form className={Styles.form} onSubmit={userGoogleData.userName&&userGoogleData.email ?handleRegisterWithGoogle() :  handleSubmit}>
          <div className={Styles.form__elements}>
              <label className={Styles.form__label}>
                  username :
              </label>
-             <input type="text" placeholder="userName" onBlur={handleBlur} onChange={handleChange} value={values.userName} name="userName" className="formInput-small" />
+             <input type="text" placeholder="userName" onBlur={handleBlur} disabled={userGoogleData.userName} onChange={handleChange} value={userGoogleData.userName?userGoogleData.userName:values.userName} name="userName" className="formInput-small" />
            {touched.userName && errors.userName ? <span className={Styles.err}>{errors.userName}</span>:null}
          </div>
          <div className={Styles.form__elements}>
              <label className={Styles.form__label}>
                  Email :
              </label>
-             <input className="formInput-small" onBlur={handleBlur} onChange={handleChange} value={values.email} placeholder="email" type="email" name="email" />
+             <input className="formInput-small" onBlur={handleBlur} onChange={handleChange} disabled={userGoogleData.email} value={userGoogleData.email?userGoogleData.email:values.email} placeholder="email" type="email" name="email" />
              {touched.email && errors.email ? <span className={Styles.err}>{errors.email}</span>:null}
 
          </div>
@@ -119,7 +160,7 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
              </label>
              <div className={Styles.password__container}>
             
-             <input type={passwordVisibility?"text":"password"} placeholder="password" onBlur={handleBlur} onChange={handleChange} value={values.password} name="password" className={`formInput-small ${Styles.password}`} />
+             <input type={passwordVisibility?"text":"password"} disabled={userGoogleData.userName&&userGoogleData.email} placeholder="password" onBlur={handleBlur} onChange={handleChange} value={values.password} name="password" className={`formInput-small ${Styles.password}`} />
  
              <button className={Styles.passwordVisibility} onClick={handlePasswordVisibility} type="button">
                  <img src={eye.src} alt="password visibility"/>
@@ -172,11 +213,19 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
              {socialMediaLinkErr?<span className={Styles.err}>{socialMediaLinkErr}</span>:null}
          </div>
         
-         {serverState[0].serverErr?<p className={`text-center ${AuthGlobalStyle.server__err}`}>{serverState[0].serverErr}</p>:null}
-         <button className={`btn-primary ${Styles.form__submit__btn}`} type="submit" onSubmit={_=>handleSubmit()}>
+         {serverErr?<p className={`text-center ${AuthGlobalStyle.server__err}`}>{serverErr}</p>:null}
+         <button className={`btn-primary ${Styles.form__submit__btn}`} type="submit" onSubmit={userGoogleData.userName&&userGoogleData.email ?()=>handleRegisterWithGoogle() : ()=> handleSubmit()}>
              register
          </button>
-            
+            <p className={AuthGlobalStyle.or}>or</p>
+            <div className={AuthGlobalStyle.googleLoginBtn__container}>
+            <GoogleLogin
+            clientId={process.env.CLIENT_ID?process.env.CLIENT_ID:""}
+             buttonText="Register With Google Account"
+             onSuccess={handleGoogleResponse}
+             onFailure={handleGoogleResponse}
+            />
+            </div>
         </form>
     )
 }
