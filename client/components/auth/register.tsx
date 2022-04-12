@@ -36,16 +36,20 @@ const [{rules,rulesFieldNum,socialMediaLinks,socialMediaLinksFieldNum,passwordVi
  const serverState:any  = React.useReducer(serverReducer,{
      serverErr:""
  })
- const handleTextChange = (e:React.ChangeEvent<HTMLInputElement>, id:number,fieldName:string) => {
-      dispatch({type:"write__text",payload:{name:fieldName,textId:id,text:e.target.value}})
+ const handleTextChange = (id:number,fieldName:string) => {
+    return (e:React.ChangeEvent<HTMLInputElement>)=>dispatch({type:"write__text",payload:{name:fieldName,textId:id,text:e.target.value}})
+    
 };
 const handleAddField = (fieldNumName:string)=>{
-   dispatch({type:"increment",payload:{name:fieldNumName}})
+    return ()=>dispatch({type:"increment",payload:{name:fieldNumName}})
+
 }
- const handleRemoveField = (fieldName:string,fieldNumName:string) => {
+ const handleRemoveField = (fieldName:string,fieldNumName:string)=>{
+     return () => {
    dispatch({type:"decrement",payload:{name:fieldNumName}})
    dispatch({type:"remove__text",payload:{name:fieldName,textId:rulesFieldNum}})
- };
+ }
+}
  
  const handlePasswordVisibility = ()=> passwordVisibility?dispatch({type:"hide__element",payload:{name:"passwordVisibility"}}):dispatch({type:"show__element",payload:{name:"passwordVisibility"}})
 const validationSchema = Yup.object({
@@ -137,14 +141,14 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
                  Rules :
              </label>
              {Array.apply(null, Array(rulesFieldNum)).map((_,idx)=>(
-                <input key={idx} placeholder="stream rules"  onChange={e=>handleTextChange(e,idx,"rules")} className="formInput-small" name="rule" value={rules[idx]}/>
+                <input key={idx} placeholder="stream rules"  onChange={handleTextChange(idx,"rules")} className="formInput-small" name="rule" value={rules[idx]}/>
               
              ))}
              <div className={Styles.form__addElements__container}>
-             <button className={`btn-primary ${rulesFieldNum===maxRulesFields?`btn-primary--disabled`:null}`} disabled={maxRulesFields===rulesFieldNum} type="button" onClick={_=>handleAddField("rulesFieldNum")}> 
+             <button className={`btn-primary ${rulesFieldNum===maxRulesFields?`btn-primary--disabled`:null}`} disabled={maxRulesFields===rulesFieldNum} type="button" onClick={handleAddField("rulesFieldNum")}> 
                  +
              </button>
-             <button className={`btn-primary ${rulesFieldNum===minRulesFields?`btn-primary--disabled`:null}`} disabled={rulesFieldNum===minRulesFields} type="button" onClick={_=>handleRemoveField("rules","rulesFieldNum")}> 
+             <button className={`btn-primary ${rulesFieldNum===minRulesFields?`btn-primary--disabled`:null}`} disabled={rulesFieldNum===minRulesFields} type="button" onClick={handleRemoveField("rules","rulesFieldNum")}> 
                  -
              </button>
              </div>
@@ -154,14 +158,14 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
                  Social media  :
              </label>
          {Array.apply(null, Array(socialMediaLinksFieldNum)).map((_,idx)=>(
-                <input key={idx} placeholder="social media link"  onChange={e=>handleTextChange(e,idx,"socialMediaLinks")} className="formInput-small" name="socialMediaLink" value={socialMediaLinks[idx]}/>
+                <input key={idx} placeholder="social media link"  onChange={handleTextChange(idx,"socialMediaLinks")} className="formInput-small" name="socialMediaLink" value={socialMediaLinks[idx]}/>
               
              ))}
              <div className={Styles.form__addElements__container}>
-             <button className={`btn-primary ${socialMediaLinksFieldNum===maxSocialMediaFields?`btn-primary--disabled`:null}`} disabled={socialMediaLinksFieldNum===maxSocialMediaFields} type="button" onClick={_=>handleAddField("socialMediaLinksFieldNum")}> 
+             <button className={`btn-primary ${socialMediaLinksFieldNum===maxSocialMediaFields?`btn-primary--disabled`:null}`} disabled={socialMediaLinksFieldNum===maxSocialMediaFields} type="button" onClick={handleAddField("socialMediaLinksFieldNum")}> 
                  +
              </button>
-             <button className={`btn-primary ${socialMediaLinksFieldNum===minSocialMediaFields?`btn-primary--disabled`:null}`} disabled={socialMediaLinksFieldNum===minSocialMediaFields} type="button" onClick={_=>handleRemoveField("socialMediaLinks","socialMediaLinksFieldNum")}> 
+             <button className={`btn-primary ${socialMediaLinksFieldNum===minSocialMediaFields?`btn-primary--disabled`:null}`} disabled={socialMediaLinksFieldNum===minSocialMediaFields} type="button" onClick={handleRemoveField("socialMediaLinks","socialMediaLinksFieldNum")}> 
                  -
              </button>
              </div>
