@@ -1,8 +1,10 @@
 const loginController = require("./login");
 
-const registerController = require("./register");
+const {registerController,registerWithGoogleController,getUserInfoByGoogleIdController} = require("./register");
 
 module.exports = {
     loginController,
-    registerController
+    registerController,
+    registerWithGoogleController,
+    getUserInfoByGoogleIdController
 }
