@@ -8,6 +8,7 @@ import {usePost} from "../../hooks/httpReq/";
 import useLocalhost from "../../hooks/useLocalhost";
 import {useAuthContext} from "./context/authContext";
 import serverReducer from "./reducers/server";
+import {GoogleLogin} from "react-google-login";
 
 interface formikInterface{
     userName: string;
@@ -17,10 +18,12 @@ interface formikInterface{
 
 const Login = ()=>{
     const [passwordVisibility,setpasswordVisibility] = React.useState(false);
-    const [_,setAuthorization] = useLocalhost("authorization");
+    const [auth,setAuthorization] = useLocalhost("authorization");
     const [{serverErr},dispatch] = React.useReducer(serverReducer,{serverErr:""}); 
     const {setAuth} = useAuthContext()
     const setPost = usePost();
+    const [_,setGoogleToken] = useLocalhost("googleToken")
+
     const validationSchema = Yup.object({
         userName : Yup.string().max(15,"15 letters is the maximum").min(3,"3 letter is the minimum").required("this field is required"),
         email: Yup.string().email("please write a valid email").required("this field is required"),
@@ -50,6 +53,23 @@ const Login = ()=>{
         
         }
     })
+  
+    const handleGoogleResponse = async(response:any)=>{
+        if(response.tokenId){
+            try{
+             const data = await setPost("http://localhost:8080/api/auth/google/account/login",{token:response.tokenId},true)
+             console.log("data",data)
+             if(!data.error){
+                 setGoogleToken(data.token)
+                 setAuth("")
+             }else{
+                 dispatch({type:"server__err",payload:{name:"serverErr",err:data.message}})
+             }                 
+            }catch(err){
+                console.error(err)
+            }
+        }
+    }
   return(
       <form className={Styles.form} onSubmit={handleSubmit}>
           <div className={Styles.form__elements}>
@@ -86,6 +106,15 @@ const Login = ()=>{
          <button className={`btn-primary ${Styles.form__submit__btn}`} type="submit" onSubmit={_=>handleSubmit()}>
              login
          </button>
+         <p className={AuthGlobalStyle.or}>or</p>
+         <div className={AuthGlobalStyle.googleLoginBtn__container}>
+             <GoogleLogin
+             clientId={process.env.CLIENT_ID?process.env.CLIENT_ID:""}
+             onSuccess={handleGoogleResponse}
+             onFailure={handleGoogleResponse}
+             buttonText="Login With Google Account"
+             />
+         </div>
       </form>
   )
 }

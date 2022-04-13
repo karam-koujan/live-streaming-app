@@ -10,6 +10,7 @@ import registerReducer from "./reducers/register";
 import serverReducer from "./reducers/server";
 import {GoogleLogin} from "react-google-login";
 import {useGet} from "../../hooks/httpReq/";
+import useLocalhost from "../../hooks/useLocalhost";
 
 
 interface formikInterface{
@@ -31,6 +32,8 @@ const {auth,setAuth}  = useAuthContext();
 const setGet = useGet()
 const setPost = usePost();
 const [socialMediaLinkErr,setSocialMediaLinkErr] = React.useState("");
+const [_,setGoogleToken] = useLocalhost("googleToken")
+
 const [{rules,rulesFieldNum,socialMediaLinks,socialMediaLinksFieldNum,passwordVisibility},dispatch] = React.useReducer(registerReducer,{
      rules: Array.apply(null, Array(maxRulesFields)),
      rulesFieldNum:1,
@@ -86,15 +89,17 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
          const socialMedia = socialMediaLinks.filter((item:(string|undefined))=>item!==undefined);
          const rulesResult = rules.filter((item:(string|undefined))=>item!==undefined)
                try{
-                   
-                       await socialMediaSchema.validate(socialMedia)
-                      setSocialMediaLinkErr("")
+                    if(socialMedia.length){
+                        await socialMediaSchema.validate(socialMedia)
+                       setSocialMediaLinkErr("")
+                    }
                    
                 }catch(err:any){
                return  setSocialMediaLinkErr(err.errors)
               }
               try{
                 const data = {...values,socialMedia ,rules:rulesResult}
+                console.log(data)
                 const response = await setPost("http://localhost:8080/api/auth/register",data,false)
                 if(response.error){
                dispatchServer({type:"server__err",payload:{name:"serverErr",err:response.message}})
@@ -112,13 +117,14 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
 
  const handleRegisterWithGoogle =  ()=>{
   return async (e:React.FormEvent<HTMLFormElement>)=>{
-    
+     e.preventDefault()
     const socialMedia = socialMediaLinks.filter((item:(string|undefined))=>item!==undefined);
     const rulesResult = rules.filter((item:(string|undefined))=>item!==undefined)
           try{
-              
-                  await socialMediaSchema.validate(socialMedia)
-                 setSocialMediaLinkErr("")
+                   if(socialMedia.length){
+                       await socialMediaSchema.validate(socialMedia)
+                      setSocialMediaLinkErr("")
+                   }
               
            }catch(err:any){
           return  setSocialMediaLinkErr(err.errors)
@@ -126,10 +132,12 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
          try{
            const data = {aboutMe:values.aboutMe,userName:userGoogleData.userName,email:userGoogleData.email,socialMedia ,rules:rulesResult}
            const response = await setPost("http://localhost:8080/api/auth/google/account/register",data,false)
+           console.log("response",data)
            if(response.error){
           dispatchServer({type:"server__err",payload:{name:"serverErr",err:response.message}})
            }else{
                setAuth("") 
+               setGoogleToken(response.token)
 
            }
         }catch(err){
