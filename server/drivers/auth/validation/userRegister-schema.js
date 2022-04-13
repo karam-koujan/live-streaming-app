@@ -14,6 +14,6 @@ module.exports = Joi.object().keys({
     followings: Joi.array().items(user).default([]),
     streamKey: Joi.string(),
     socialMedia:Joi.array().items(socialMedia).default([]),
-    aboutMe: Joi.string(),
+    aboutMe: Joi.string().allow("").default(""),
     rules : Joi.array().items(Joi.string()).default([])
 })
