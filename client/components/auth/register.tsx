@@ -62,7 +62,7 @@ const handleAddField = (fieldNumName:string)=>{
  const handleGoogleResponse = async(response:any)=>{
     try{
         const data = await setGet(`http://localhost:8080/api/auth/google/account/userInfo/?token=${response.tokenId}`,false)
-       dispatchServer({type:"server__response",payload:{name:"userGoogleData",data:{userName:data.userName,email:data.email}}})
+       dispatchServer({type:"server__response",payload:{name:"userGoogleData",data:{userName:data.message.userName,email:data.message.email}}})
      }catch(err){
         console.error(err)
     }
