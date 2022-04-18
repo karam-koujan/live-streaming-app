@@ -62,7 +62,7 @@ const handleAddField = (fieldNumName:string)=>{
  const handleGoogleResponse = async(response:any)=>{
     try{
         const data = await setGet(`http://localhost:8080/api/auth/google/account/userInfo/?token=${response.tokenId}`,false)
-       dispatchServer({type:"server__response",payload:{name:"userGoogleData",data:{userName:data.message.userName,email:data.message.email}}})
+       dispatchServer({type:"server__response",payload:{name:"userGoogleData",data:{userName:data.userName,email:data.email}}})
      }catch(err){
         console.error(err)
     }
@@ -162,13 +162,15 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
              {touched.email && errors.email ? <span className={Styles.err}>{errors.email}</span>:null}
 
          </div>
+         {!userGoogleData.userName&&!userGoogleData.email?
+         (
          <div className={Styles.form__elements}>
              <label className={Styles.form__label}>
                  password :
              </label>
              <div className={Styles.password__container}>
             
-             <input type={passwordVisibility?"text":"password"} disabled={userGoogleData.userName&&userGoogleData.email} placeholder="password" onBlur={handleBlur} onChange={handleChange} value={values.password} name="password" className={`formInput-small ${Styles.password}`} />
+            <input type={passwordVisibility?"text":"password"} placeholder="password" onBlur={handleBlur} onChange={handleChange} value={values.password} name="password" className={`formInput-small ${Styles.password}`} />
  
              <button className={Styles.passwordVisibility} onClick={handlePasswordVisibility} type="button">
                  <img src={eye.src} alt="password visibility"/>
@@ -177,6 +179,7 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
              </div>
              {touched.password && errors.password ? <span className={Styles.err}>{errors.password}</span>:null}
          </div>
+         ):null}
          <div className={Styles.form__elements}>
              <label className={Styles.form__label}>
                  About me :
