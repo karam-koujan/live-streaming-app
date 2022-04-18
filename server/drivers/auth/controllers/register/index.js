@@ -1,4 +1,4 @@
-const {registerController} = require("./defaultRegister")
+const {registerController} = require("./register")
 const {registerWithGoogleController} = require("./registerWithGoogle")
 const {getGoogleUserInfo} = require("./getGoogleUserInfo")
 module.exports = {

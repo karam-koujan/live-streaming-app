@@ -1,4 +1,4 @@
-const {loginController,loginWithGoogle} = require("./login");
+const {loginController,loginWithGoogle} = require("./login/");
 
 const {registerController,registerWithGoogleController,getGoogleUserInfo} = require("./register/");
 

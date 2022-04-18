@@ -14,12 +14,12 @@ class RegisterWithGoogleController extends BaseController{
     
     async logic(req,res){
         const {userName,email,socialMedia,token,...rest} = req.body ;
-        const findUserByEmail = await findUser({email})
+        const findUserByEmail = await findUser({email,googleAccount:true})
 
         if(findUserByEmail.user!==null){
-            return super.Forbidden(res,findUserByEmail.message)
+            return super.Forbidden(res,"this email is already existed")
         }
-        if(userEmail.dbErr){
+        if(findUserByEmail.dbErr){
             return super.fail(res)
         }
         const streamKey = shortId.generate();
@@ -28,8 +28,8 @@ class RegisterWithGoogleController extends BaseController{
             userName,
               email,
               streamKey,
-              password:hashedPassword,
               socialMedia:socialMediaList,
+              googleAccount:true,
               ...rest
             }
       try{
@@ -38,7 +38,7 @@ class RegisterWithGoogleController extends BaseController{
             return super.fail(res,message)
              }
                              
-           return super.Created(res,{message,token})
+           return super.Created(res,{token})
             }catch{
                   return super.fail(res)
               }

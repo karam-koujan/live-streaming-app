@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const {addUser,findUser} = require("../../../../data__access/user");
 const validator = require('../../../../utils/dataValidator');
-const {userRegisterSchema} = require("../../validation/");
+const {userRegisterSchema} = require("../../validation");
 const BaseController = require("../../../../utils/baseController/index.js")
 const {getSocialMediaNameFromLink} = require("../helpers");
 const shortId = require("shortid");
@@ -42,7 +42,7 @@ class RegisterController extends BaseController{
       if(dbErr||error){
        return  super.fail(res,message)
       }   
-         return super.Created(res,message)
+         return super.Created(res)
          }catch(err){
             return  super.fail(res)
          }
