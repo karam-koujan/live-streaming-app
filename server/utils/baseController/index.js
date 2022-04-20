@@ -8,32 +8,30 @@ class BaseController{
     
     
      
-     static JsonResponse(res,message,code,error){
-        return res.status(code).json({
-            error,
-            message
-        })
+     static JsonResponse(res,code,payloadObj){
+        return res.status(code).json(payloadObj)
     }
    
     
 
-     Ok(res,message){
-       return  BaseController.JsonResponse(res,message?message:'Request is Successfull',200,false)
+     Ok(res,{message,...rest}){
+       return  BaseController.JsonResponse(res,200,{message:message?message:'Request is Successfull',error:false,...rest})
     }
-     Created(res,message){
-        return  BaseController.JsonResponse(res,message?message:'Request is successfull',200,false)
+     Created(res,{message,...rest}){
+        return  BaseController.JsonResponse(res,201,{message:message?message:'Request is Successfull',error:false,...rest})
     }
-     NotFound(res,message){
-        return  BaseController.JsonResponse(res,message?message:'Not Found',404,true)
+     NotFound(res,{message,...rest}){
+        return  BaseController.JsonResponse(res,404,{message:message?message:'Not Found',error:true,...rest})
+
     }
-     Forbidden(res,message){
-       return  BaseController.JsonResponse(res,message?message:'Forbidden',403,true)
+     Forbidden(res,{message,...rest}){
+        return  BaseController.JsonResponse(res,403,{message:message?message:'Forbidden',error:true,...rest})
    }
-    UnAuthorized(res,message){
-     return  BaseController.JsonResponse(res,message?message:'UnAuthorized',401,true)
+    UnAuthorized(res,{message,...rest}){
+     return  BaseController.JsonResponse(res,401,{message:message?message:'UnAuthorized',error:true})
   }
-   BadRequest(res,message){
-     return   BaseController.JsonResponse(res,message?message:'Bad Request',400,true)
+   BadRequest(res,{message,...rest}){
+    return  BaseController.JsonResponse(res,400,{message:message?message:'Bad Request',error:true})
 }
      fail(res,error){
         console.log(error) 
