@@ -17,7 +17,7 @@ class RegisterWithGoogleController extends BaseController{
         const findUserByEmail = await findUser({email,googleAccount:true})
 
         if(findUserByEmail.user!==null){
-            return super.Forbidden(res,"this email is already existed")
+            return super.Forbidden(res,{message:"this email is already existed"})
         }
         if(findUserByEmail.dbErr){
             return super.fail(res)
@@ -49,7 +49,7 @@ class RegisterWithGoogleController extends BaseController{
         console.log(data)
         const userValidation = validator(userRegisterWithGoogleSchema)(data)
     if(userValidation.error){
-       return  super.UnAuthorized(res,userValidation.error)
+       return  super.UnAuthorized(res,{message:userValidation.error})
      }
      next()
     }

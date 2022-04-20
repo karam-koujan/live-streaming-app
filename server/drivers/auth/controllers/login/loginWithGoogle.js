@@ -24,12 +24,12 @@ class LoginWithGoogle extends BaseController{
         
             const findUserByEmail = await findUser({email,googleAccount:true})
             if(findUserByEmail.user===null){
-                return super.Forbidden(res,"please create account before you login")
+                return super.Forbidden(res,{message:"please create account before you login"})
             }
             if(findUserByEmail.dbErr){
                 return super.fail(res)
             }
-            return super.Ok(res,{token},"login is successfull")
+            return super.Ok(res,{token,message:"login is successfull"})
         }catch{
             return super.fail(res)
         }

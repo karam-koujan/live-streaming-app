@@ -20,14 +20,15 @@ class LoginController extends BaseController{
            return super.fail(res)
         }
         if(user===null){
-             return super.Forbidden(res,'wrong userName, email or password')
+             return super.Forbidden(res,{message:'wrong userName, email or password'})
          }
-         const result = await bcrypt.compare(password,user.password)
-         if(!result){
-            return super.Forbidden(res,'wrong userName, email or password')
+         const isCorrectPassword = await bcrypt.compare(password,user.password)
+         if(!isCorrectPassword){
+            return super.Forbidden(res,{message:'wrong userName, email or password'})
          }
          const token = jwt.sign({_id:user._id},tokenKey)
-        return super.Ok(res,{token},"login is successfull")
+         user.password=undefined;
+        return super.Ok(res,{token,message:"login is successfull",user})
         }catch{
            return super.fail(res)
         }
@@ -38,7 +39,7 @@ class LoginController extends BaseController{
       const data = req.body ; 
       const userValidation = validator(userLoginSchema)(data)
       if(userValidation.error){
-         super.UnAuthorized(res,userValidation.error)
+         super.UnAuthorized(res,{message:userValidation.error})
       }
       next()
     }

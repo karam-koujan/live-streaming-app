@@ -16,10 +16,10 @@ class RegisterController extends BaseController{
          const findUserByEmail = await findUser({email});
          if(findUserByUserName.user!==null){
              console.log("er")
-             return super.Forbidden(res,"this username is already existed")
+             return super.Forbidden(res,{message:"this username is already existed"})
           }
           if(findUserByEmail.user){
-             return super.Forbidden(res,"this email is already existed")
+             return super.Forbidden(res,{message:"this email is already existed"})
           }
           if(findUserByUserName.dbErr){
               return super.fail(res)
@@ -56,7 +56,7 @@ class RegisterController extends BaseController{
          console.log(data,userValidation)
          if(userValidation.error){
             
-             return super.UnAuthorized(res,userValidation.error)
+             return super.UnAuthorized(res,{message:userValidation.error})
              
           }
           next()
