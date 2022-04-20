@@ -8,7 +8,7 @@ const port = 8080 || process.env.PORT
 const nodeMediaServer = require("./drivers/media/media_server");
 const {dbConnection,corsOrigin} = require("./config/keys/keys");
 const stream = require("./drivers/streams/route");
-const {tokenVerification} = require("./drivers/auth/middleware/tokenVerification");
+const {tokenVerification} = require("./drivers/auth/middlewares/tokenVerification");
 const jsonBodyParser = bodyParser.json()
 const urlBodyParser = bodyParser.urlencoded({ extended: false })
 app.use(cors())
