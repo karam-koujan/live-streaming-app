@@ -1,10 +1,10 @@
 const express = require("express");
-const {tokenVerification} = require("../auth/middleware/tokenVerification");
+const {tokenVerification} = require("../auth/middlewares/tokenVerification");
 const router = express()
-const { generate_stream_key } = require("./controller");
+const { generate_stream_key} = require("./controllers");
 
 
-router.get("/stream_key",tokenVerification,generate_stream_key)
+router.get("/stream_key",tokenVerification,generate_stream_key.logic)
 
 module.exports = router;
 
