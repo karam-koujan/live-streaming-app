@@ -19,5 +19,6 @@ module.exports = Joi.object().keys({
     socialMedia:Joi.array().items(socialMedia).default([]),
     aboutMe: Joi.string().allow("").default(""),
     rules : Joi.array().items(Joi.string()).default([]),
+    googleToken:Joi.string().default(""),
     googleAccount:Joi.bool()
 })
