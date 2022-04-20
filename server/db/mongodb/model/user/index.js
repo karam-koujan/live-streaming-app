@@ -13,7 +13,8 @@ const userSchema = new mongoose.Schema({
      rules : [{type:String}],
      aboutMe: {type:String,default:""},
      socialMedia:[{name:String,link:{type:String,validate:/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i}}],
-     googleAccount:{type:Boolean,default:false} 
+     googleAccount:{type:Boolean,default:false} ,
+     googleToken:String
 })
 
 module.exports = mongoose.model('User',userSchema)
