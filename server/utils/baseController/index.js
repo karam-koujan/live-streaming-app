@@ -28,10 +28,10 @@ class BaseController{
         return  BaseController.JsonResponse(res,403,{message:message?message:'Forbidden',error:true,...rest})
    }
     UnAuthorized(res,{message,...rest}){
-     return  BaseController.JsonResponse(res,401,{message:message?message:'UnAuthorized',error:true})
+     return  BaseController.JsonResponse(res,401,{message:message?message:'UnAuthorized',error:true,...rest})
   }
    BadRequest(res,{message,...rest}){
-    return  BaseController.JsonResponse(res,400,{message:message?message:'Bad Request',error:true})
+    return  BaseController.JsonResponse(res,400,{message:message?message:'Bad Request',error:true,...rest})
 }
      fail(res,error){
         console.log(error) 
