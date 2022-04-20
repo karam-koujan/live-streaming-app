@@ -30,6 +30,7 @@ class RegisterWithGoogleController extends BaseController{
               streamKey,
               socialMedia:socialMediaList,
               googleAccount:true,
+              googleToken:token,
               ...rest
             }
       try{

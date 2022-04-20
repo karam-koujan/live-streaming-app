@@ -35,7 +35,7 @@ class BaseController{
 }
      fail(res,error){
         console.log(error) 
-        return BaseController.JsonResponse(res,error?error.toString():"internal server error",500,true)
+        return BaseController.JsonResponse(res,500,{message:error?error.toString():"internal server error",error:true})
     }
 }
 module.exports = BaseController;

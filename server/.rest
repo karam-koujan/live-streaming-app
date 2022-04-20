@@ -3,10 +3,10 @@ POST http://localhost:8080/api/auth/register
 Content-Type: application/json
 
 {
-  "userName":"test2",
-  "email":"testtest2@gmail.com",
+  "userName":"",
+  "email":"testtess@gmail.com",
   "password":"1234567891011",
-  "socialMedia":["http://twitter.com"]
+  "socialMedia":["sdsds"]
 }
 ###
 
@@ -23,4 +23,17 @@ Content-Type: application/json
 
 GET http://localhost:8080/api/stream/stream_key
 Content-Type: application/json
-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjNkMDZlNGVhZjVkMzNiMzk1NGNlYjYiLCJpYXQiOjE2NDgxNjY5NjV9.xKqV3b6JPA7xCfX6z7y70aifybMj45hcfDWMjKGE-Hk
+token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjRhNTM4OGNiZjlhZDE0ZTUyY2NjY2EiLCJpYXQiOjE2NTA0NTU5MzZ9.FwgxkoHNrZTijIp6yg9qc5JccEuSVq4olQmWo25GYBs
+
+
+###
+
+POST http://localhost:8080/api/stream/create_stream
+Content-Type: application/json
+token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjRhNTM4OGNiZjlhZDE0ZTUyY2NjY2EiLCJpYXQiOjE2NTA0NTU5MzZ9.FwgxkoHNrZTijIp6yg9qc5JccEuSVq4olQmWo25GYBs
+
+{
+    "title": "coding stream",
+    "tags":["tech"],
+    "type":"science and technologie"          
+}
