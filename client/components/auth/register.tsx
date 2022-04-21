@@ -32,7 +32,7 @@ const {auth,setAuth}  = useAuthContext();
 const setGet = useGet()
 const setPost = usePost();
 const [socialMediaLinkErr,setSocialMediaLinkErr] = React.useState("");
-const [_,setGoogleToken] = useLocalhost("googleToken")
+const [googleToken,setGoogleToken] = useLocalhost("googleToken")
 
 const [{rules,rulesFieldNum,socialMediaLinks,socialMediaLinksFieldNum,passwordVisibility},dispatch] = React.useReducer(registerReducer,{
      rules: Array.apply(null, Array(maxRulesFields)),
@@ -130,7 +130,7 @@ const socialMediaSchema = Yup.array().of(Yup.string().matches(/[(http(s)?):\/\/(
           return  setSocialMediaLinkErr(err.errors)
          }
          try{
-           const data = {aboutMe:values.aboutMe,userName:userGoogleData.userName,email:userGoogleData.email,socialMedia ,rules:rulesResult}
+           const data = {aboutMe:values.aboutMe,userName:userGoogleData.userName,email:userGoogleData.email,socialMedia ,rules:rulesResult,token:googleToken}
            const response = await setPost("http://localhost:8080/api/auth/google/account/register",data,false)
            console.log("response",data)
            if(response.error){

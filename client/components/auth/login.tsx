@@ -9,7 +9,6 @@ import useLocalhost from "../../hooks/useLocalhost";
 import {useAuthContext} from "./context/authContext";
 import serverReducer from "./reducers/server";
 import {GoogleLogin} from "react-google-login";
-
 interface formikInterface{
     userName: string;
     email: string;

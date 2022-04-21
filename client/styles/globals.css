@@ -48,7 +48,7 @@ a {
   color: inherit;
   text-decoration: none;
 }
-img{
+img,video{
   display: block;
   width: 100%;
 }

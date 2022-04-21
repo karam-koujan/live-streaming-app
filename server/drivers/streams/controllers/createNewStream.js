@@ -10,7 +10,7 @@ class CreateNewStream extends BaseController{
     async logic(req,res){
         const stream = req.body;
         const {streamKey,_id} = req.user
-        const streamLink= `${config.rtmp_server.http.hostName}/live/${streamKey}.flv`;
+        const streamLink= `${config.rtmp_server.http.hostName}:${config.rtmp_server.http.port}/live/${streamKey}.flv`;
         const date = new Date(); 
         const now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
          date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());

@@ -3,10 +3,10 @@ const {tokenKey} = require("../../../config/keys/keys");
 const {findUser} = require("../../../data__access/user/index");
 exports.tokenVerification = async(req,res,next)=>{
     let token = req.headers.token;
-    let googleToken = req.headers.googleToken ; 
-    
+    let googleToken = req.headers.googletoken ; 
+    console.log(req.headers)
+    console.log("google token",googleToken)
     if(googleToken){
-       console.log("google token",googe)
       const {user,dbErr}  = await findUser({googleToken})
       if(user===null){
         return res.status(400).json({

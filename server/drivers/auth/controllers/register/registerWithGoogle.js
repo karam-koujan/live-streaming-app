@@ -24,6 +24,7 @@ class RegisterWithGoogleController extends BaseController{
         }
         const streamKey = shortId.generate();
         const socialMediaList = getSocialMediaNameFromLink(socialMedia)
+    
         const newUser = {  
             userName,
               email,
@@ -33,6 +34,7 @@ class RegisterWithGoogleController extends BaseController{
               googleToken:token,
               ...rest
             }
+            console.log(newUser)
       try{
          const {message,error,dbErr} = await addUser(newUser)
          if(dbErr||error){

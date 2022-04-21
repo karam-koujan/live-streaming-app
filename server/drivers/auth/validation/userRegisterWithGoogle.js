@@ -8,5 +8,6 @@ module.exports = Joi.object().keys({
     email: Joi.string().email(),
     socialMedia:Joi.array().items(socialMedia).default([]),
     aboutMe: Joi.string().allow("").default(""),
-    rules : Joi.array().items(Joi.string()).default([])
+    rules : Joi.array().items(Joi.string()).default([]),
+    token:Joi.string()
 })
