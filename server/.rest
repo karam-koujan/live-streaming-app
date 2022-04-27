@@ -3,10 +3,10 @@ POST http://localhost:8080/api/auth/register
 Content-Type: application/json
 
 {
-  "userName":"",
+  "userName":"test",
   "email":"testtess@gmail.com",
   "password":"1234567891011",
-  "socialMedia":["sdsds"]
+  "socialMedia":[]
 }
 ###
 
@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "userName":"test",
-  "email":"testtest@gmail.com",
+  "email":"testtess@gmail.com",
   "password":"1234567891011"
 }
 
@@ -30,12 +30,12 @@ token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjRhNTM4OGNiZjlhZ
 
 POST http://localhost:8080/api/stream/create_stream
 Content-Type: application/json
-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjRhNTM4OGNiZjlhZDE0ZTUyY2NjY2EiLCJpYXQiOjE2NTA0NTU5MzZ9.FwgxkoHNrZTijIp6yg9qc5JccEuSVq4olQmWo25GYBs
+token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY4ZjI0YjgwYTllYWVjMmUwMjdkMzUiLCJpYXQiOjE2NTEwNDQ5NzV9.DyIYrzSsbhoY8SZxLBneUZvpBrNRXmffEIAPvN_vWY0
 
 {
     "title": "coding stream",
     "tags":["tech"],
-    "type":"science and technologie"          
+    "event":"science and technologie"          
 }
 ###
 
@@ -48,4 +48,9 @@ googleToken: eyJhbGciOiJSUzI1NiIsImtpZCI6ImQzMzJhYjU0NWNjMTg5ZGYxMzNlZmRkYjNhNmM
 GET http://localhost:8080/api/stream/stream_link
 Content-Type: application/json
 token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjRhNTM4OGNiZjlhZDE0ZTUyY2NjY2EiLCJpYXQiOjE2NTA0NTU5MzZ9.FwgxkoHNrZTijIp6yg9qc5JccEuSVq4olQmWo25GYBs
+
+###
+DELETE  http://localhost:8080/api/stream/stop 
+Content-Type: application/json
+token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjY4ZjI0YjgwYTllYWVjMmUwMjdkMzUiLCJpYXQiOjE2NTEwNDQ5NzV9.DyIYrzSsbhoY8SZxLBneUZvpBrNRXmffEIAPvN_vWY0
 

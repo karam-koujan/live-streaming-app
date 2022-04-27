@@ -32,3 +32,13 @@ exports.modifyStream = async(filter,newInfo)=>{
   return {error:true,dbErr:true,message:"db error"}
 }
 }
+
+
+exports.deleteStream = async(filter)=>{
+  try{
+    const stream = await Stream.deleteOne(filter);
+    return {error:false,stream,dbErr:false}
+}catch(err){
+  return {error:true,dbErr:true,message:"db error"}
+}
+}
