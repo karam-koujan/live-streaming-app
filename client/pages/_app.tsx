@@ -7,6 +7,7 @@ import {AuthContextProvider} from "../components/auth/context/authContext";
 import type { AppProps } from 'next/app'
 import { UserContextProvider } from '../context/userContext';
 import {QueryClientProvider,QueryClient} from "react-query";
+import Layout from '../components/common/layout';
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient()
   return( 
@@ -19,7 +20,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <QueryClientProvider client={queryClient}>
       <UserContextProvider>
       <AuthContextProvider>
+        <Layout>
       <Component {...pageProps}/>
+        </Layout>
       </AuthContextProvider>
       </UserContextProvider>
       </QueryClientProvider>

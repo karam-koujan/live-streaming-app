@@ -6,6 +6,9 @@ import formRegister from "../auth/reducers/register";
 import {useFormik,FormikProps} from "formik";
 import { useUserContext } from "../../context/userContext";
 import {useFetchQuery} from "../../hooks/useFetchQuery";
+import {useMutation, useQueryClient} from "react-query";
+import { usePost } from "../../hooks/httpReq";
+import { useRouter } from "next/router";
 interface formikInterface{
     title:string;
     event:string
@@ -36,23 +39,32 @@ const handleAddField = (fieldNumName:string)=>{
    dispatch({type:"remove__text",payload:{name:fieldName,textId:tagsFieldNum}})
  }
 }
-const {data,isLoading} = useUserContext()
+const streamLink = useFetchQuery("streamLink", "http://localhost:8080/api/stream/stream_link")
+const setPost = usePost()
+const mutation:any = useMutation((data:any)=>setPost("http://localhost:8080/api/stream/create_stream",data,true))
+const router = useRouter()
+const queryClient = useQueryClient()
 const {handleSubmit,handleChange,handleBlur,errors,values,touched}:FormikProps<formikInterface> = useFormik<formikInterface>({
         initialValues:{
             title:"",
             event:"",
         },
         validationSchema,
-        onSubmit:async()=>{
-            console.log(data)
-            console.log({...values,tags})
-   
+        onSubmit:()=>{
+            mutation.mutate({...values,tags:tags.filter((tag:(string|undefined))=>tag!==undefined),streamLink:streamLink.data.streamLink},{
+                onSuccess: () => {
+                    queryClient.invalidateQueries('streams')}})
+            
+            if(!mutation.error){
+             router.push("/")
+            }        
     }})
+
     return(
         <div className={Styles.container}>
         <h1 className={Styles.title}>Luanch The Live Stream</h1>
         <div className={Styles.videoWrapper}>
-        {false?<VideoJS liveUrl="f"/>:<div className={Styles.videoErr}><p className={`${Styles.videoErr__text} text-center`}>please turn on your streaming software</p></div>}
+      <VideoJS  liveUrl={streamLink?.data?.streamLink} isLoading={streamLink.isLoading}/>
         </div>
         <form className={Styles.form} action="" onSubmit={handleSubmit}>
         <div className={Styles.form__elements}>
@@ -88,17 +100,7 @@ const {handleSubmit,handleChange,handleBlur,errors,values,touched}:FormikProps<f
              </button>
              </div>
          </div>
-         <div className={Styles.form__elements}>
-             <label className={Styles.form__label}>
-                 stream link :
-             </label>
-             {!isLoading?(
-             <div className="formInput-medium">
-                 {data.user.streamKey}
-             </div>            
-             ):"isLoading.."}
- 
-         </div>
+         
          <button className={`btn-primary ${Styles.form__submit__btn}`} type="submit"  onClick={()=>handleSubmit()}>
              Luanch The Stream
          </button>

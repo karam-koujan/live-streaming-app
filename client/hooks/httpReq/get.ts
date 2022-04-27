@@ -13,7 +13,7 @@ const setGet = async(uri:string,token:boolean=true)=>{
     const [authorization] = useLocalhost("authorization")
     const [googleToken] = useLocalhost("googleToken")
     if(token&&authorization){
-         headers = {...headers,authorization:`Bearer ${authorization}`}
+         headers = {...headers,authorization:authorization}
     }
     if(token&&googleToken){
         headers = {...headers,googleToken}

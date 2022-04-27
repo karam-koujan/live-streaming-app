@@ -16,18 +16,7 @@
 .videoWrapper,.videoErr{
     width:min(100%,700px);
 }
-.videoErr{
-  background-color: var(--third);
-  
-  align-items: center;
-  display: flex;
-  height:20rem;
-  justify-content: center;
-}
-.videoErr__text{
-    color: var(--primary);
-    font-size: 1.1rem;
-}
+
 .form__elements{
     display: flex;
     flex-direction: column;

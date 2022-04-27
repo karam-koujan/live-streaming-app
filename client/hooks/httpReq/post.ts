@@ -9,10 +9,15 @@ interface headerInterface {
     [key:string]:any;
 }
 const setPost = async(uri:string,body:bodyInterface,token:boolean=true)=>{
-    let headers:headerInterface = {"Content-Type":"application/json"}
     const [authorization] = useLocalhost("authorization")
-    if(token){
-         headers = {...headers,authorization:`Bearer ${authorization}`}
+    const [googleToken] = useLocalhost("googleToken")
+    let headers:headerInterface = {"Content-Type":"application/json"}
+
+    if(token&&authorization){
+         headers = {...headers,authorization:authorization}
+    }
+    if(token&&googleToken){
+        headers = {...headers,googleToken}
     }
 
     try{

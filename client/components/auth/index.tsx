@@ -1,3 +1,4 @@
+import * as React from "react";
 import Login from "./login";
 import Register from "./register"
 import Styles from "./styles/style.module.css";
@@ -6,7 +7,9 @@ import {useAuthContext} from "./context/authContext";
 
 const Auth = ()=>{
     const {auth,setAuth} = useAuthContext()
-     
+   React.useEffect(()=>{
+       document.body.style.overflow = "hidden"
+   },[])
     if(!auth){
         return null
     }

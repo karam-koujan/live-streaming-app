@@ -14,18 +14,8 @@ const Home: NextPage = () => {
         <title>live streaming app</title>
        
       </Head>
-     <button onClick={_=>setAuth("register")}>register</button>
-     <button onClick={_=>setAuth("login")}>login</button>
-     <button>
-       <Link href="/luanchStream">
-        <a>
-       luanch a stream
-        </a>
-       </Link>
-       </button>
-    <VideoJS/>
+     
 
-     <Auth/>
     </div>
   )
 }
