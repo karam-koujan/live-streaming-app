@@ -1,0 +1,129 @@
+.container{
+   background-color: rgba(var(--gray-300-rgb),.8);
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal{
+    background-color: var(--white);
+    border-radius: 3px;
+    
+    width:min(100%,31.25rem);
+    max-height:calc(100vh/1.2) ;
+    padding: 2rem 1.5rem ;
+
+    overflow-y: auto;
+}
+.modal__title{
+    color: var(--secondary);
+
+    margin-bottom: 1.5rem;
+}
+.modal__navList{
+    display: flex;
+    gap: 2rem;
+    
+    position: relative;
+    
+    padding-bottom: .5rem;
+    margin-bottom: 1rem;
+}
+.modal__navList::before{
+    background-color: var(--third);
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+
+   height: 1.2px;
+   width: 100%;
+
+
+
+}
+.modal__navItem{
+    color: var(--secondary);
+    font-size: 1rem;
+    font-weight: var(--font-bold);
+    text-transform: capitalize;
+    
+    cursor:pointer ;
+    
+    position: relative;
+}
+.modal__navItem--active{
+    color: var(--primary);
+}
+
+
+.modal__navItem--active::before{
+    background-color: var(--primary) ;
+
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -.5rem;
+
+   height: 1.2px;
+   width: 100%;     
+}
+.deleteIcon{
+    color: var(--white);
+    font-size: 1rem;
+    font-weight: var(--font-bold);
+    
+    cursor: pointer;
+
+}
+.container__elements{
+    display: flex;
+    gap: 1rem;
+}
+
+.server__err{
+    color: var(--red);
+    font-size: .8rem ;
+}
+
+.or{
+    color: var(--secondary);
+    font-size: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+
+    position: relative;
+
+    margin-block: 2rem;
+}
+.or::before,.or::after{
+    content: "";
+
+    height: 1px;
+   width: 45%;  
+    position: absolute;
+    top: 50%;
+    background-color: var(--secondary);
+    color: var(--secondary);
+}
+.or::before{
+    right: 0;
+}
+.or:after{
+ left: 0;
+}
+.googleLoginBtn__container{
+
+    display: flex;
+    justify-content: center;
+}

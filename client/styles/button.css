@@ -1,0 +1,56 @@
+.btn-primary,.btn-secondary,.btn-third--gray,.btn-third--purple{
+    border:1px solid transparent;
+    border-radius: 2px;
+
+    font-family: var(--inter);
+    font-size: .81rem;
+    font-weight: var(--font-bold);
+    text-align: center;
+    text-transform: capitalize;
+
+    padding: .3rem 1rem;
+
+    transition: background-color .4s ease , color .4s ease, border .4s ease;
+}
+.btn-primary{
+    background-color: var(--primary);
+   
+    color: var(--white);
+   
+}
+.btn-primary--disabled{
+    background-color: var(--white);
+    border:1px solid var(--primary);    
+    color:var(--primary);
+}
+.btn-primary:hover,.btn-primary:focus{
+    background-color: var(--white);
+    border:1px solid var(--primary);    
+    color:var(--primary);
+}
+
+.btn-secondary{
+    background-color: var(--third);
+    color: var(--secondary);
+}
+.btn-secondary--disabled{
+    background-color: var(--primary);
+    color:var(--white);
+}
+.btn-secondary:hover,.btn-secondary:focus{
+    background-color: var(--primary);
+    color:var(--white);
+}
+.btn-third--purple{
+    background-color:transparent;
+    color: var(--primary);
+}
+.btn-third--gray{
+   background-color: none;
+   color: var(--secondary);
+}
+.btn-third--purple:hover,.btn-third--purple:focus,.btn-third--gray:hover,.btn-third--gray:focus{
+    background-color: var(--third);
+    padding: .3rem 1rem;
+
+}

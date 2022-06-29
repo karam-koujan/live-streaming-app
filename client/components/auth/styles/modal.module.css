@@ -1,0 +1,59 @@
+
+.form__elements{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    
+    margin-bottom: .5rem;
+
+    text-transform:capitalize;
+}
+.form__label{
+    color: var(--secondary);
+    font-size: .8rem;
+}
+.form__addElements__container{
+   display: flex;
+   gap: 1rem;
+}
+
+
+.form__submit__btn{
+    display: block;
+    margin-top: 1rem;
+    margin-inline:  auto ;
+}
+
+.form__textarea{
+    height: 4rem ;
+    resize: vertical;
+}
+
+.err{
+    color: var(--red);
+    font-size: .8rem;
+
+}
+.password__container{
+    position: relative;
+}
+.password{
+    width: 100%;
+
+}
+.passwordVisibility{
+    background-color: transparent;
+    border: none;
+    border-radius: 2px;
+     
+    position: absolute;
+    bottom:.29rem;
+    right:2%;
+    
+    padding:.01rem .2rem;
+
+    transition: background-color  .2s ease-in-out;
+}
+.passwordVisibility:focus,.passwordVisibility:hover{
+    background-color: var(--third);
+}
