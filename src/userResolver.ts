@@ -1,9 +1,10 @@
 import "reflect-metadata";
-import  {Arg, Mutation, ObjectType, Query, Resolver,Field} from "type-graphql" ;
+import  {Arg, Mutation, ObjectType, Query, Resolver,Field, Ctx} from "type-graphql" ;
 import {User} from "./model/User";
 import Joi from "@hapi/joi";
 import {hash,compare} from "bcrypt";
 import {sign} from "jsonwebtoken";
+import Context from "./types/context";
 const {tokenKey,refreshTokenKey} = require("./config/");
 /*
  {
@@ -42,7 +43,8 @@ class LoginRes implements responseMsg{
 @Resolver()
 export class UserResolver{
     @Query(()=>String)
-    hello(){
+    hello(@Ctx() {req}:Context){
+        console.log(req.cookies)
         return "hi"
     }
     @Mutation(()=>String)
@@ -77,7 +79,7 @@ export class UserResolver{
         }
     }
     @Mutation(()=>LoginRes) 
-    async Login(@Arg("email") email:string,@Arg("password") password:string){
+    async Login(@Arg("email") email:string,@Arg("password") password:string,@Ctx() {res}:Context){
         const inputSchema  = Joi.object({
             email : Joi.string().email(),
             password : Joi.string().min(8)
@@ -94,9 +96,13 @@ export class UserResolver{
               throw new Error("the email or password is wrong")
          }
          
-        // const refreshToken = sign({email:user.email},refreshTokenKey,{expiresIn:"7d"})
-         const token = sign({userId:user._id!},tokenKey,{expiresIn:"5m"});
-  
+         const refreshToken = sign({email:user.email},refreshTokenKey,{expiresIn:"7d"})
+        res.cookie("refreshToken",refreshToken,{
+            httpOnly:true,
+            maxAge:30*24*60*60*1000
+        })
+        const token = sign({userId:user._id!},tokenKey,{expiresIn:"5m"});
+         
          return {Ok:true,authToken:`Bearer ${token}`}
        }catch(err:any){
         throw new Error(err)
