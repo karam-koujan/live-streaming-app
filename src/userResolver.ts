@@ -1,10 +1,11 @@
 import "reflect-metadata";
-import  {Arg, Mutation, ObjectType, Query, Resolver,Field, Ctx} from "type-graphql" ;
+import  {Arg, Mutation, ObjectType, Query, Resolver,Field, Ctx, UseMiddleware} from "type-graphql" ;
 import {User} from "./model/User";
 import Joi from "@hapi/joi";
 import {hash,compare} from "bcrypt";
 import {sign} from "jsonwebtoken";
 import Context from "./types/context";
+import isAuth from "./isAuth";
 const {tokenKey,refreshTokenKey} = require("./config/");
 /*
  {
@@ -43,6 +44,7 @@ class LoginRes implements responseMsg{
 @Resolver()
 export class UserResolver{
     @Query(()=>String)
+    @UseMiddleware(isAuth)
     hello(@Ctx() {req}:Context){
         console.log(req.cookies)
         return "hi"
