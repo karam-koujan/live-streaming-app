@@ -99,8 +99,10 @@ export class UserResolver{
          }
          
          const refreshToken = sign({email:user.email},refreshTokenKey,{expiresIn:"7d"})
-        res.cookie("refreshToken",refreshToken,{
+        res.cookie("jid",refreshToken,{
             httpOnly:true,
+            sameSite:"none",
+            secure:true,
             maxAge:30*24*60*60*1000
         })
         const token = sign({userId:user._id!},tokenKey,{expiresIn:"5m"});
