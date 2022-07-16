@@ -1,7 +1,7 @@
 import Context from "../types/context";
 import {verify} from "jsonwebtoken";
 import { Middleware } from "type-graphql/dist/interfaces/Middleware";
-const {tokenKey} = require("../config/");
+const {accessTokenKey} = require("../config/");
 
 
 const isAuth:Middleware<Context> = async ({context},next)=>{
@@ -11,7 +11,7 @@ const isAuth:Middleware<Context> = async ({context},next)=>{
      }
 	try{
           const token = authorization.split(" ")[1];	
-          const payload = verify(token,tokenKey);
+          const payload = verify(token,accessTokenKey);
           context.payload = payload as any
           
      }catch{
