@@ -1,0 +1,4 @@
+http://localhost:8000/refresh_token
+
+Content-Type: application/json
+Cookie: jid=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthcmFta2FrdUBnbWFpbC5jb20iLCJpYXQiOjE2NTc3NDg0NzksImV4cCI6MTY1ODM1MzI3OX0.gu3XXXJDRpe7z9jiHhT6h6rMlvIAb1ZylwbYq0N-c1s; Max-Age=2592000; Path=/; Expires=Fri, 12 Aug 2022 21:41:19 GMT; HttpOnly; Secure; SameSite=None

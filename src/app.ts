@@ -1,13 +1,13 @@
 import express from "express"; 
 import {ApolloServer} from "apollo-server-express";
-import { UserResolver } from "./userResolver";
+import { AuthResolver } from "./auth/resolvers";
 import "reflect-metadata";
 import {buildSchema} from "type-graphql";
 import {connect} from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 const {dbConnection} = require("./config/"); 
-import refreshToken from "./refreshToken";
+import refreshToken from "./auth/refreshToken";
 
 (async()=>{
 const app = express() 
@@ -15,7 +15,7 @@ const port = process.env.NODE_ENV || 8000 ;
 
 const apolloServer = new ApolloServer({
   schema : await buildSchema({
-     resolvers : [UserResolver]  
+     resolvers : [AuthResolver]  
     }),
   context : ({req,res})=>({req,res}),
 

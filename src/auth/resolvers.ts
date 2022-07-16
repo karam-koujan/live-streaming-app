@@ -12,7 +12,7 @@ import { LoginType } from "./types";
 
 
 @Resolver()
-export class UserResolver{
+export class AuthResolver{
     @Query(()=>String)
     @UseMiddleware(isAuth)
     hello(@Ctx() {req}:Context){
